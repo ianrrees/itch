@@ -34,5 +34,5 @@
     };
 
     // Register the extension
-    ScratchExtensions.register('Sample extension', descriptor, ext);
+    ScratchExtensions.register('Ian\'sSample extension', descriptor, ext);
 })({});
