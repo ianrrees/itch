@@ -1,4 +1,4 @@
-// Boilerplate
+// Boilerplate.  This is all meant to be loaded via URL:  http://ianrrees.github.io/itch/itch.js
 (function(ext) {
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
@@ -27,12 +27,7 @@
             ['r', '%n ^ %n', 'power', 2, 3],
         ]
     };
-    // Block and block menu descriptions
-    var descriptor = {
-        blocks: [
-        ]
-    };
 
     // Register the extension
-    ScratchExtensions.register('Sample extension', descriptor, ext);
+    ScratchExtensions.register('Ian\'s Sample extension', descriptor, ext);
 })({});
