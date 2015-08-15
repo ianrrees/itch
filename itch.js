@@ -10,6 +10,7 @@
     };
 
     ext.my_first_block = function() {
+        init();
         console.log("The block was run!");
     };
 
@@ -29,5 +30,5 @@
     };
 
     // Register the extension
-    ScratchExtensions.register('Ian\'s Sample extension', descriptor, ext);
+    ScratchExtensions.register('Ian\'s websocket extension', descriptor, ext);
 })({});
