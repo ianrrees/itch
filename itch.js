@@ -10,6 +10,7 @@
     };
 
     ext.my_first_block = function() {
+        init();
         console.log("The block was run!");
     };
 
@@ -29,14 +30,13 @@
     };
 
     // Register the extension
-    ScratchExtensions.register('Ian\'s Sample extension', descriptor, ext);
+    ScratchExtensions.register('Ian\'s websocket extension', descriptor, ext);
 
 var wsUri = "ws://echo.websocket.org/";
 var output;
 
 function init() {
     console.log("running websocket init");
- //   output = document.getElementById("output");
     testWebSocket();
 }
 
@@ -50,41 +50,27 @@ function testWebSocket() {
 
 function onOpen(evt) {
     console.log("Connected websocket doodad");
-//    writeToScreen("CONNECTED");
     doSend("WebSocket testatron");
 }
 
 function onClose(evt) {
     console.log("Disconnected websocket doodad");
-//    writeToScreen("DISCONNECTED");
 }
 
 function onMessage(evt) {
     console.log("Response is " + evt.data);
-//    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
     websocket.close();
 }
 
 function onError(evt) {
     console.log("Error was " + evt.data);
-   // writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
 }
 
 function doSend(message) {
     console.log("Sent " + message);
- //   writeToScreen("SENT: " + message);
     websocket.send(message);
 }
 
-/*
-function writeToScreen(message) {
-    var pre = document.createElement("p");
-    pre.style.wordWrap = "break-word";
-    pre.innerHTML = message;
-    output.appendChild(pre);
-}*/
-
-init();
 })
 
 ({});
