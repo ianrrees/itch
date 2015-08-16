@@ -13,8 +13,9 @@
     var output;
 
     function initSocket() {
-        if (typeof websocket !== 'undefined') {
-            console.log("Websocket is not undefined");
+        if (typeof websocket !== 'undefined' &&
+            websocket.readyState != CLOSED) {
+            console.log("Websocket is not undefined or closed");
             console.log(websocket.readyState);
             return;
         }
