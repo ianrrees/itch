@@ -12,23 +12,25 @@
     var wsUri = "ws://localhost:8000/";
     var output;
 
-    ext.ledOnBlockActivated = function() {
-        console.log("Sending LED command");
+    function initSocket() {
+        if (typeof websocket !== 'undefined')
+            return;
         websocket = new WebSocket(wsUri);
         websocket.onopen = function(evt) { onOpen(evt) };
         websocket.onclose = function(evt) { onClose(evt) };
         websocket.onmessage = function(evt) { onMessage(evt) };
         websocket.onerror = function(evt) { onError(evt) };
+    }
+
+    ext.ledOnBlockActivated = function() {
+        console.log("Sending LED command");
+        initSocket();
         doSend(websocket, "LED On");
     };
 
     ext.ledOffBlockActivated = function() {
         console.log("Sending LED command");
-        websocket = new WebSocket(wsUri);
-        websocket.onopen = function(evt) { onOpen(evt) };
-        websocket.onclose = function(evt) { onClose(evt) };
-        websocket.onmessage = function(evt) { onMessage(evt) };
-        websocket.onerror = function(evt) { onError(evt) };
+        initSocket();
         doSend(websocket, "LED Off");
     };
 
