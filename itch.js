@@ -13,8 +13,12 @@
     var output;
 
     function initSocket() {
-        if (typeof websocket !== 'undefined')
+        if (typeof websocket !== 'undefined') {
+            console.log("Websocket is not undefined");
+            console.log(websocket.readystate);
             return;
+        }
+
         websocket = new WebSocket(wsUri);
         websocket.onopen = function(evt) { onOpen(evt) };
         websocket.onclose = function(evt) { onClose(evt) };
