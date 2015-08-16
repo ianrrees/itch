@@ -38,10 +38,6 @@
         doSend(websocket, "LED Off");
     };
 
-    ext.ledOnBlockActivated = function() {
-        ledOn();
-    };
-
     ext.power = function(base, exponent) {
         console.log("Power (as in exponentiation) block was run!");
         return Math.pow(base, exponent);
