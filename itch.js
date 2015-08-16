@@ -9,22 +9,21 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.my_first_block = function() {
+    ext.websocket_test = function() {
         init();
         console.log("The block was run!");
     };
 
     ext.power = function(base, exponent) {
-        console.log("Power block was run!");
+        console.log("Power (as in exponentiation) block was run!");
         return Math.pow(base, exponent);
     };
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            // Block type, block name, function name
-            [' ', 'my first block', 'my_first_block'],
-            // Block type, block name, function name, param1 default value, param2 default value
+            // Block type, block name, function name[, param1 default value, param2 default value]
+            [' ', 'Test WebSockets!', 'websocket_test'],
             ['r', '%n ^ %n', 'power', 2, 3],
         ]
     };
