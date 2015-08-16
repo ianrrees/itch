@@ -13,6 +13,7 @@
     var output;
 
     function initSocket() {
+        console.log("top of initSocket()");
         if (typeof ext.ws !== 'undefined' &&
             ext.ws.readyState != CLOSED) {
             console.log("Websocket is not undefined or closed");
