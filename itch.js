@@ -30,7 +30,7 @@
     };
 
     // Register the extension
-    ScratchExtensions.register('Ian\'s websocket extension', descriptor, ext);
+    ScratchExtensions.register('Ian\'s local WS extension', descriptor, ext);
 
 var wsUri = "ws://localhost:8000/";
 var output;
