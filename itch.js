@@ -9,6 +9,9 @@
         return {status: 2, msg: 'Ready'};
     };
 
+    var wsUri = "ws://localhost:8000/";
+    var output;
+
     ext.ledOnBlockActivated = function() {
         console.log("Sending LED command");
         websocket = new WebSocket(wsUri);
@@ -16,7 +19,7 @@
         websocket.onclose = function(evt) { onClose(evt) };
         websocket.onmessage = function(evt) { onMessage(evt) };
         websocket.onerror = function(evt) { onError(evt) };
-        doSend("LED On");
+        doSend(websocket, "LED On");
     };
 
     ext.ledOffBlockActivated = function() {
@@ -26,7 +29,7 @@
         websocket.onclose = function(evt) { onClose(evt) };
         websocket.onmessage = function(evt) { onMessage(evt) };
         websocket.onerror = function(evt) { onError(evt) };
-        doSend("LED Off");
+        doSend(websocket, "LED Off");
     };
 
     ext.ledOnBlockActivated = function() {
@@ -51,9 +54,6 @@
     // Register the extension
     ScratchExtensions.register('Ian\'s LED Blinker', descriptor, ext);
 
-var wsUri = "ws://localhost:8000/";
-var output;
-
 function onOpen(evt) {
     console.log("Connected websocket doodad");
 }
@@ -71,8 +71,7 @@ function onError(evt) {
     console.log("Error was " + evt.data);
 }
 
-function doSend(message) {
-    console.log("Sent " + message);
+function doSend(websocket, message) {
     websocket.send(message);
 }
 
