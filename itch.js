@@ -19,8 +19,9 @@
             console.log(ext.ws.readyState);
             return;
         }
-
+        console.log("about to make new websocket");
         ext.ws = new WebSocket(wsUri);
+        console.log("made new websocket");
         ext.ws.onopen = function(evt) { onOpen(evt) };
         ext.ws.onclose = function(evt) { onClose(evt) };
         ext.ws.onmessage = function(evt) { onMessage(evt) };
