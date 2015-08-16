@@ -15,7 +15,7 @@
     function initSocket() {
         if (typeof websocket !== 'undefined') {
             console.log("Websocket is not undefined");
-            console.log(websocket.readystate);
+            console.log(websocket.readyState);
             return;
         }
 
