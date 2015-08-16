@@ -9,48 +9,53 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.my_first_block = function() {
-        init();
-        console.log("The block was run!");
+    ext.ledOnBlockActivated = function() {
+        console.log("Sending LED on command");
+        websocket = new WebSocket(wsUri);
+        websocket.onopen = function(evt) { onOpen(evt) };
+        websocket.onclose = function(evt) { onClose(evt) };
+        websocket.onmessage = function(evt) { onMessage(evt) };
+        websocket.onerror = function(evt) { onError(evt) };
+        doSend("LED On");
+    };
+
+    ext.ledOffBlockActivated = function() {
+        console.log("Sending LED on command");
+        websocket = new WebSocket(wsUri);
+        websocket.onopen = function(evt) { onOpen(evt) };
+        websocket.onclose = function(evt) { onClose(evt) };
+        websocket.onmessage = function(evt) { onMessage(evt) };
+        websocket.onerror = function(evt) { onError(evt) };
+        doSend("LED Off");
+    };
+
+    ext.ledOnBlockActivated = function() {
+        ledOn();
     };
 
     ext.power = function(base, exponent) {
-        console.log("Power block was run!");
+        console.log("Power (as in exponentiation) block was run!");
         return Math.pow(base, exponent);
     };
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            // Block type, block name, function name
-            [' ', 'my first block', 'my_first_block'],
-            // Block type, block name, function name, param1 default value, param2 default value
+            // Block type, block name, function name[, param1 default value, param2 default value]
+            [' ', 'Turn LED On!', 'ledOnBlockActivated'],
+            [' ', 'Turn LED Off!', 'ledOffBlockActivated'],
             ['r', '%n ^ %n', 'power', 2, 3],
         ]
     };
 
     // Register the extension
-    ScratchExtensions.register('Ian\'s local WS extension', descriptor, ext);
+    ScratchExtensions.register('Ian\'s websocket extension', descriptor, ext);
 
-var wsUri = "ws://localhost:8000/";
+var wsUri = "ws://echo.websocket.org/";
 var output;
-
-function init() {
-    console.log("running websocket init");
-    testWebSocket();
-}
-
-function testWebSocket() {
-    websocket = new WebSocket(wsUri);
-    websocket.onopen = function(evt) { onOpen(evt) };
-    websocket.onclose = function(evt) { onClose(evt) };
-    websocket.onmessage = function(evt) { onMessage(evt) };
-    websocket.onerror = function(evt) { onError(evt) };
-}
 
 function onOpen(evt) {
     console.log("Connected websocket doodad");
-    doSend("WebSocket testatron");
 }
 
 function onClose(evt) {
