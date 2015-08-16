@@ -30,13 +30,13 @@
     ext.ledOnBlockActivated = function() {
         console.log("Sending LED command");
         initSocket();
-        doSend(ext.ws, "LED On");
+        ext.ws.send("LED On");
     };
 
     ext.ledOffBlockActivated = function() {
         console.log("Sending LED command");
         initSocket();
-        doSend(ext.ws, "LED Off");
+        ext.ws.send("LED Off");
     };
 
     ext.power = function(base, exponent) {
@@ -72,10 +72,6 @@ function onMessage(evt) {
 
 function onError(evt) {
     console.log("Error was " + evt.data);
-}
-
-function doSend(ext.ws, message) {
-    ext.ws.send(message);
 }
 
 })
