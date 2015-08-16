@@ -32,7 +32,7 @@
     // Register the extension
     ScratchExtensions.register('Ian\'s websocket extension', descriptor, ext);
 
-var wsUri = "ws://echo.websocket.org/";
+var wsUri = "ws://localhost:8000/";
 var output;
 
 function init() {
