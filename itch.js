@@ -13,30 +13,30 @@
     var output;
 
     function initSocket() {
-        if (typeof websocket !== 'undefined' &&
-            websocket.readyState != CLOSED) {
+        if (typeof ext.ws !== 'undefined' &&
+            ext.ws.readyState != CLOSED) {
             console.log("Websocket is not undefined or closed");
-            console.log(websocket.readyState);
+            console.log(ext.ws.readyState);
             return;
         }
 
-        websocket = new WebSocket(wsUri);
-        websocket.onopen = function(evt) { onOpen(evt) };
-        websocket.onclose = function(evt) { onClose(evt) };
-        websocket.onmessage = function(evt) { onMessage(evt) };
-        websocket.onerror = function(evt) { onError(evt) };
+        ext.ws = new WebSocket(wsUri);
+        ext.ws.onopen = function(evt) { onOpen(evt) };
+        ext.ws.onclose = function(evt) { onClose(evt) };
+        ext.ws.onmessage = function(evt) { onMessage(evt) };
+        ext.ws.onerror = function(evt) { onError(evt) };
     }
 
     ext.ledOnBlockActivated = function() {
         console.log("Sending LED command");
         initSocket();
-        doSend(websocket, "LED On");
+        doSend(ext.ws, "LED On");
     };
 
     ext.ledOffBlockActivated = function() {
         console.log("Sending LED command");
         initSocket();
-        doSend(websocket, "LED Off");
+        doSend(ext.ws, "LED Off");
     };
 
     ext.power = function(base, exponent) {
@@ -67,15 +67,15 @@ function onClose(evt) {
 
 function onMessage(evt) {
     console.log("Response is " + evt.data);
-    websocket.close();
+    ext.ws.close();
 }
 
 function onError(evt) {
     console.log("Error was " + evt.data);
 }
 
-function doSend(websocket, message) {
-    websocket.send(message);
+function doSend(ext.ws, message) {
+    ext.ws.send(message);
 }
 
 })
