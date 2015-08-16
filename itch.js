@@ -28,14 +28,16 @@
     }
 
     ext.ledOnBlockActivated = function() {
-        console.log("Sending LED command");
+        console.log("Sending LED on command");
         initSocket();
+        console.log("Socket state is " + ext.ws.readyState);
         ext.ws.send("LED On");
     };
 
     ext.ledOffBlockActivated = function() {
-        console.log("Sending LED command");
+        console.log("Sending LED off command");
         initSocket();
+        console.log("Socket state is " + ext.ws.readyState);
         ext.ws.send("LED Off");
     };
 
