@@ -26,21 +26,21 @@
     }
 
     ext.ledOnBlockActivated = function() {
-        console.log("Sending LED on command, socket state is " + ext._ws.readyState);
+        console.log("About to send LED on command, socket state is " + ext._ws.readyState);
         if (ext._ws.readyState == 3) {
             ext.initSocket();
         }
+        console.log("actually sending");
         ext._ws.send("LED On");
-        console.log("Socket is " + ext._ws);
     };
 
     ext.ledOffBlockActivated = function() {
-        console.log("Sending LED off command, socket state is " + ext._ws.readyState);
+        console.log("About to send LED off command, socket state is " + ext._ws.readyState);
         if (ext._ws.readyState == 3) {
             ext.initSocket();
         }
+        console.log("actually sending");
         ext._ws.send("LED Off");
-        console.log("Socket is " + ext._ws);
     };
 
 /*    ext.power = function(base, exponent) {
