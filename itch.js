@@ -32,7 +32,7 @@
         }
         if (ext._ws.readyState == 0) { // 0 => Not yet open
             console.log("Set timer to try again");
-            setTimeout("ext.ledOnBlockActivated()", 10);
+            setTimeout(ext.ledOnBlockActivated(), 10);
             return;
         }
         console.log("actually sending");
@@ -46,7 +46,7 @@
         }
         if (ext._ws.readyState == 0) { // 0 => Not yet open
             console.log("Set timer to try again");
-            setTimeout("ext.ledOffBlockActivated()", 10);
+            setTimeout(ext.ledOffBlockActivated(), 10);
             return;
         }
         console.log("actually sending");
