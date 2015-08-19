@@ -9,44 +9,31 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    var wsUri = "ws://localhost:8000/";
-    var output;
+    ext.initSocket = function() {
+        console.log("Top of initSocket()");
 
-    function initSocket() {
-        console.log("top of initSocket()");
-        if (typeof ext.ws !== 'undefined' &&
-            ext.ws.readyState != CLOSED) {
-            console.log("Websocket is not undefined or closed");
-            console.log(ext.ws.readyState);
-            return;
+        if (typeof ext.ws == 'undefined') {
+            ext.ws = "Hi, I'm not really a websocket sorry :(";
+            console.log("Made a new websocket");
+        } else {
+            console.log("Didn't need to make a new websocket");
         }
-        console.log("about to make new websocket");
-        ext.ws = new WebSocket(wsUri);
-        console.log("made new websocket");
-        ext.ws.onopen = function(evt) { onOpen(evt) };
-        ext.ws.onclose = function(evt) { onClose(evt) };
-        ext.ws.onmessage = function(evt) { onMessage(evt) };
-        ext.ws.onerror = function(evt) { onError(evt) };
     }
 
     ext.ledOnBlockActivated = function() {
         console.log("Sending LED on command");
-        initSocket();
-        console.log("Socket state is " + ext.ws.readyState);
-        ext.ws.send("LED On");
+        console.log("Socket is " + ext.ws);
     };
 
     ext.ledOffBlockActivated = function() {
         console.log("Sending LED off command");
-        initSocket();
-        console.log("Socket state is " + ext.ws.readyState);
-        ext.ws.send("LED Off");
+        console.log("Socket is " + ext.ws);
     };
 
-    ext.power = function(base, exponent) {
+/*    ext.power = function(base, exponent) {
         console.log("Power (as in exponentiation) block was run!");
         return Math.pow(base, exponent);
-    };
+    }; */
 
     // Block and block menu descriptions
     var descriptor = {
@@ -60,24 +47,24 @@
 
     // Register the extension
     ScratchExtensions.register('Ian\'s LED Blinker', descriptor, ext);
+    ext.initSocket();
 
-function onOpen(evt) {
-    console.log("Connected websocket doodad");
-}
+    ext._wsOnOpen = function(evt) {
+        console.log("WS Connected");
+    }
 
-function onClose(evt) {
-    console.log("Disconnected websocket doodad");
-}
+    ext._wsOnClose = function(evt) {
+        console.log("WS Disconnected");
+    }
 
-function onMessage(evt) {
-    console.log("Response is " + evt.data);
-    ext.ws.close();
-}
+    ext._wsOnMessage = function(evt) {
+        console.log("WS Response is " + evt.data);
+        ext.ws.close();
+    }
 
-function onError(evt) {
-    console.log("Error was " + evt.data);
-}
-
+    ext._wsOnError = function(evt) {
+        console.log("WS Error was " + evt.data);
+    }
 })
 
 ({});
