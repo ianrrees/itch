@@ -20,6 +20,7 @@
             ext._ws.onclose = function(evt) { ext._wsOnClose(evt) };
             ext._ws.onmessage = function(evt) { ext._wsOnMessage(evt) };
             ext._ws.onerror = function(evt) { ext._wsOnError(evt) };
+            ext._wsRetriesLeft = 10;
         } else {
             console.log("Didn't need to make a new websocket");
         }
@@ -31,12 +32,17 @@
             ext.initSocket();
         }
         if (ext._ws.readyState == 0) { // 0 => Not yet open
-            console.log("Set timer to try again");
-            setTimeout(ext.ledOnBlockActivated(), 10);
-            return;
+            if (ext._wsRetriesLeft > 0) {
+                ext._wsRetriesLeft -= 1;
+                console.log("Set timer to try again");
+                setTimeout(ext.ledOnBlockActivated(), 250);
+            } else {
+                console.log("Ran out of retries.");
+            }
+        } else {
+            console.log("actually sending");
+            ext._ws.send("LED On");
         }
-        console.log("actually sending");
-        ext._ws.send("LED On");
     };
 
     ext.ledOffBlockActivated = function() {
@@ -45,12 +51,17 @@
             ext.initSocket();
         }
         if (ext._ws.readyState == 0) { // 0 => Not yet open
-            console.log("Set timer to try again");
-            setTimeout(ext.ledOffBlockActivated(), 10);
-            return;
+            if (ext._wsRetriesLeft > 0) {
+                ext._wsRetriesLeft -= 1;
+                console.log("Set timer to try again");
+                setTimeout(ext.ledOffBlockActivated(), 250);
+            } else {
+                console.log("Ran out of retries.");
+            }
+        } else {
+            console.log("actually sending");
+            ext._ws.send("LED Off");
         }
-        console.log("actually sending");
-        ext._ws.send("LED Off");
     };
 
 /*    ext.power = function(base, exponent) {
