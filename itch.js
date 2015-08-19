@@ -30,14 +30,24 @@
         if (ext._ws.readyState == 3) {
             ext.initSocket();
         }
+        if (ext._ws.readyState == 0) { // 0 => Not yet open
+            console.log("Set timer to try again");
+            setTimeout("ext.ledOnBlockActivated()", 10);
+            return;
+        }
         console.log("actually sending");
         ext._ws.send("LED On");
     };
 
     ext.ledOffBlockActivated = function() {
         console.log("About to send LED off command, socket state is " + ext._ws.readyState);
-        if (ext._ws.readyState == 3) {
+        if (ext._ws.readyState == 3) { // 3 => connection closed or couldn't be opened
             ext.initSocket();
+        }
+        if (ext._ws.readyState == 0) { // 0 => Not yet open
+            console.log("Set timer to try again");
+            setTimeout("ext.ledOffBlockActivated()", 10);
+            return;
         }
         console.log("actually sending");
         ext._ws.send("LED Off");
