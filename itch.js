@@ -12,22 +12,29 @@
     ext.initSocket = function() {
         console.log("Top of initSocket()");
 
-        if (typeof ext.ws == 'undefined') {
-            ext.ws = "Hi, I'm not really a websocket sorry :(";
-            console.log("Made a new websocket");
+        if (typeof ext._ws == 'undefined') {
+            console.log("Making a new websocket");
+
+            ext._ws = new WebSocket("ws://localhost:8000/");
+            ext._ws.onopen = function(evt) { ext._wsOnOpen(evt) };
+            ext._ws.onclose = function(evt) { ext._wsOnClose(evt) };
+            ext._ws.onmessage = function(evt) { ext._wsOnMessage(evt) };
+            ext._ws.onerror = function(evt) { ext._wsOnError(evt) };
         } else {
             console.log("Didn't need to make a new websocket");
         }
     }
 
     ext.ledOnBlockActivated = function() {
-        console.log("Sending LED on command");
-        console.log("Socket is " + ext.ws);
+        console.log("Sending LED on command, socket state is " + ext._ws.readyState);
+        ext._ws.send("LED On");
+        console.log("Socket is " + ext._ws);
     };
 
     ext.ledOffBlockActivated = function() {
-        console.log("Sending LED off command");
-        console.log("Socket is " + ext.ws);
+        console.log("Sending LED off command, socket state is " + ext._ws.readyState);
+        ext._ws.send("LED Off");
+        console.log("Socket is " + ext._ws);
     };
 
 /*    ext.power = function(base, exponent) {
@@ -59,7 +66,7 @@
 
     ext._wsOnMessage = function(evt) {
         console.log("WS Response is " + evt.data);
-        ext.ws.close();
+        ext._ws.close();
     }
 
     ext._wsOnError = function(evt) {
