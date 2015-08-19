@@ -12,7 +12,7 @@
     ext.initSocket = function() {
         console.log("Top of initSocket()");
 
-        if (typeof ext._ws == 'undefined') {
+        if (typeof ext._ws == 'undefined' || ext._ws.readyState == 3) {
             console.log("Making a new websocket");
 
             ext._ws = new WebSocket("ws://localhost:8000/");
@@ -27,12 +27,18 @@
 
     ext.ledOnBlockActivated = function() {
         console.log("Sending LED on command, socket state is " + ext._ws.readyState);
+        if (ext._ws.readyState == 3) {
+            ext.initSocket();
+        }
         ext._ws.send("LED On");
         console.log("Socket is " + ext._ws);
     };
 
     ext.ledOffBlockActivated = function() {
         console.log("Sending LED off command, socket state is " + ext._ws.readyState);
+        if (ext._ws.readyState == 3) {
+            ext.initSocket();
+        }
         ext._ws.send("LED Off");
         console.log("Socket is " + ext._ws);
     };
