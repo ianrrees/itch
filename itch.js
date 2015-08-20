@@ -10,56 +10,42 @@
     };
 
     ext.initSocket = function() {
-        console.log("Top of initSocket()");
-
         if (typeof ext._ws == 'undefined' || ext._ws.readyState == 3) {
-            console.log("Making a new websocket");
-
             ext._ws = new WebSocket("ws://localhost:8000/");
             ext._ws.onopen = function(evt) { ext._wsOnOpen(evt) };
             ext._ws.onclose = function(evt) { ext._wsOnClose(evt) };
             ext._ws.onmessage = function(evt) { ext._wsOnMessage(evt) };
             ext._ws.onerror = function(evt) { ext._wsOnError(evt) };
-            ext._wsRetriesLeft = 10;
-        } else {
-            console.log("Didn't need to make a new websocket");
+            ext._wsRetriesLeft = 50;
         }
     }
 
     ext.ledOnBlockActivated = function() {
-        console.log("About to send LED on command, socket state is " + ext._ws.readyState);
         if (ext._ws.readyState == 3) {
             ext.initSocket();
         }
         if (ext._ws.readyState == 0) { // 0 => Not yet open
             if (ext._wsRetriesLeft > 0) {
                 ext._wsRetriesLeft -= 1;
-                console.log("Set timer to try again");
-                setTimeout(function () {ext.ledOnBlockActivated();}, 250);
-            } else {
-                console.log("Ran out of retries.");
+                setTimeout(function () {ext.ledOnBlockActivated();}, 100);
             }
         } else {
-            console.log("actually sending");
+            console.log("Sending \"LED On\"");
             ext._ws.send("LED On");
         }
     };
 
     ext.ledOffBlockActivated = function() {
-        console.log("About to send LED off command, socket state is " + ext._ws.readyState);
         if (ext._ws.readyState == 3) { // 3 => connection closed or couldn't be opened
             ext.initSocket();
         }
         if (ext._ws.readyState == 0) { // 0 => Not yet open
             if (ext._wsRetriesLeft > 0) {
                 ext._wsRetriesLeft -= 1;
-                console.log("Set timer to try again");
-                setTimeout(function () {ext.ledOffBlockActivated();}, 250);
-            } else {
-                console.log("Ran out of retries.");
+                setTimeout(function () {ext.ledOffBlockActivated();}, 100);
             }
         } else {
-            console.log("actually sending");
+            console.log("Sending \"LED Off\"");
             ext._ws.send("LED Off");
         }
     };
