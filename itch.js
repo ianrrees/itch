@@ -35,7 +35,7 @@
             if (ext._wsRetriesLeft > 0) {
                 ext._wsRetriesLeft -= 1;
                 console.log("Set timer to try again");
-                setTimeout(ext.ledOnBlockActivated(), 250);
+                setTimeout(function () {ext.ledOnBlockActivated();}, 250);
             } else {
                 console.log("Ran out of retries.");
             }
@@ -54,7 +54,7 @@
             if (ext._wsRetriesLeft > 0) {
                 ext._wsRetriesLeft -= 1;
                 console.log("Set timer to try again");
-                setTimeout(ext.ledOffBlockActivated(), 250);
+                setTimeout(function () {ext.ledOffBlockActivated();}, 250);
             } else {
                 console.log("Ran out of retries.");
             }
